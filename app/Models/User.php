@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -44,5 +46,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the audio files owned by the user.
+     */
+    public function audioFiles(): HasMany
+    {
+        return $this->hasMany(AudioFile::class);
+    }
+
+    /**
+     * Get the transcriptions owned by the user through audio files.
+     */
+    public function transcriptions(): HasManyThrough
+    {
+        return $this->hasManyThrough(Transcription::class, AudioFile::class);
     }
 }
