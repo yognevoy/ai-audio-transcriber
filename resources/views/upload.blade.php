@@ -22,7 +22,7 @@
                 <label for="audio_file" class="block text-sm font-medium text-[#1b1b18] mb-2">
                     Upload Audio File
                 </label>
-                <div class="flex items-center justify-center w-full">
+                <div class="flex items-center justify-center w-full drop-zone">
                     <label for="audio_file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                             <svg class="w-8 h-8 mb-4 text-[#706f6c]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -61,10 +61,29 @@
     document.addEventListener('DOMContentLoaded', function() {
         const fileInput = document.getElementById('audio_file');
         const fileInfo = document.getElementById('file-info');
+
+        const dropZone = document.querySelector('.drop-zone');
+
         const uploadBtn = document.getElementById('upload-btn');
+
         const resultDiv = document.getElementById('result');
         const statusText = document.getElementById('status-text');
         const resultMessage = document.getElementById('result-message');
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+
+            if (e.dataTransfer.files.length > 0) {
+                const file = e.dataTransfer.files[0];
+                fileInput.files = e.dataTransfer.files;
+                fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+                fileInfo.classList.remove('hidden');
+            }
+        });
 
         fileInput.addEventListener('change', function(e) {
             if (this.files.length > 0) {
