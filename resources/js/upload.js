@@ -35,11 +35,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function showLoading() {
-        statusText.textContent = 'Uploading...';
-        resultMessage.textContent = 'Processing your audio file...';
-        document.getElementById('result-container').className = 'bg-gray-50 border border-gray-200 rounded-md p-4';
-        document.getElementById('status-text-element').className = 'text-gray-700 text-sm font-medium';
+    // Function to enable upload button
+    function enableUploadButton() {
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = '<span class="relative z-10">Transcribe Audio</span>';
+        uploadBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+    }
+
+    // Function to disable upload button and show loading state
+    function disableUploadButton() {
+        uploadBtn.disabled = true;
+        uploadBtn.innerHTML = `
+            <span class="relative z-10 flex items-center justify-center">
+                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+            </span>
+        `;
+        uploadBtn.classList.add('opacity-70', 'cursor-not-allowed');
     }
 
     function showSuccess(messageHtml) {
@@ -67,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData();
         formData.append('audio_file', file);
 
-        showLoading();
-        resultDiv.classList.remove('hidden');
+        // Disable button and show loading state
+        disableUploadButton();
 
         try {
             const response = await fetch('/api/upload', {
@@ -78,6 +93,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const data = await response.json();
 
+            // Only show result div when we have a response
+            resultDiv.classList.remove('hidden');
+            
             if (data.success) {
                 const messageHtml = `
                         <strong>File uploaded successfully!</strong><br>
@@ -90,8 +108,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 showError(data.message || 'An error occurred during upload.');
             }
         } catch (error) {
+            // Show result div for error case too
+            resultDiv.classList.remove('hidden');
             showError('Network error occurred. Please try again.');
             console.error('Upload error:', error);
+        } finally {
+            // Re-enable button regardless of outcome
+            enableUploadButton();
         }
     });
 });
