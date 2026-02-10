@@ -71,7 +71,14 @@
 
                 <div class="flex items-center justify-between gap-4">
                     <button id="upload-btn" class="relative overflow-hidden w-full px-5 py-2.5 text-sm font-medium rounded-lg border border-black text-white bg-black cursor-pointer transition-transform duration-200 active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 before:absolute before:inset-0 before:bg-gradient-to-r before:from-gray-800 before:to-black before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100">
-                        <span class="relative z-10">Transcribe Audio</span>
+                        <span class="btn-text relative z-10">Transcribe Audio</span>
+                        <span class="btn-loader relative z-10 hidden flex items-center justify-center gap-2">
+                            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0 C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                            Processing...
+                        </span>
                     </button>
                 </div>
 
