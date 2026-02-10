@@ -29,6 +29,18 @@ class UploadController extends Controller
 
         $file = $request->file('audio_file');
 
+        $existingFile = AudioFile::where('user_id', Auth::id())
+            ->where('filename', $file->getClientOriginalName())
+            ->where('size', $file->getSize())
+            ->first();
+
+        if ($existingFile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File "' . $file->getClientOriginalName() . '" has already been uploaded.',
+            ], 409);
+        }
+
         $filePath = $file->store('audio_files', 'public');
 
         $audioFile = AudioFile::create([
