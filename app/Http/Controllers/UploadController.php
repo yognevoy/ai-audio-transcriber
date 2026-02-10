@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\AudioFile;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class UploadController extends Controller
@@ -27,13 +29,29 @@ class UploadController extends Controller
 
         $file = $request->file('audio_file');
 
+        $filePath = $file->store('audio_files', 'public');
+
+        $audioFile = AudioFile::create([
+            'user_id' => Auth::id(),
+            'filename' => $file->getClientOriginalName(),
+            'path' => $filePath,
+            'size' => $file->getSize(),
+            'mime_type' => $file->getMimeType(),
+            'status' => 'uploaded',
+            'uploaded_at' => now(),
+        ]);
+
+        // TODO: Publish event to queue for processing
+        // dispatch(new ProcessAudioFileJob($audioFile));
+
         return response()->json([
             'success' => true,
             'message' => 'File uploaded successfully',
             'file_info' => [
-                'name' => $file->getClientOriginalName(),
-                'size' => $file->getSize(),
-                'extension' => $file->getClientOriginalExtension(),
+                'id' => $audioFile->id,
+                'name' => $audioFile->filename,
+                'size' => $audioFile->size,
+                'extension' => pathinfo($audioFile->filename, PATHINFO_EXTENSION),
             ]
         ]);
     }
