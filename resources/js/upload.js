@@ -61,6 +61,18 @@ document.addEventListener('DOMContentLoaded', function () {
         resultMessage.textContent = message;
     }
 
+    async function uploadFile(file) {
+        const formData = new FormData();
+        formData.append('audio_file', file);
+
+        const response = await fetch('/api/upload', {
+            method: 'POST',
+            body: formData,
+        });
+
+        return response.json();
+    }
+
     uploadBtn.addEventListener('click', async function () {
         const file = fileInput.files[0];
 
@@ -69,18 +81,10 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('audio_file', file);
-
         setLoading(true);
 
         try {
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const data = await response.json();
+            const data = await uploadFile(file);
 
             resultDiv.classList.remove('hidden');
 
