@@ -35,6 +35,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    function showLoading() {
+        statusText.textContent = 'Uploading...';
+        resultMessage.textContent = 'Processing your audio file...';
+        document.getElementById('result-container').className = 'bg-gray-50 border border-gray-200 rounded-md p-4';
+        document.getElementById('status-text-element').className = 'text-gray-700 text-sm font-medium';
+    }
+
+    function showSuccess(messageHtml) {
+        statusText.textContent = 'Success';
+        document.getElementById('result-container').className = 'bg-green-50 border border-green-200 rounded-md p-4';
+        document.getElementById('status-text-element').className = 'text-green-700 text-sm font-medium';
+        resultMessage.innerHTML = messageHtml;
+    }
+
+    function showError(message) {
+        statusText.textContent = 'Error';
+        document.getElementById('result-container').className = 'bg-red-50 border border-red-200 rounded-md p-4';
+        document.getElementById('status-text-element').className = 'text-red-700 text-sm font-medium';
+        resultMessage.textContent = message;
+    }
+
     uploadBtn.addEventListener('click', async function () {
         const file = fileInput.files[0];
 
@@ -46,8 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const formData = new FormData();
         formData.append('audio_file', file);
 
-        statusText.textContent = 'Uploading...';
-        resultMessage.textContent = 'Processing your audio file...';
+        showLoading();
         resultDiv.classList.remove('hidden');
 
         try {
@@ -59,20 +79,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = await response.json();
 
             if (data.success) {
-                statusText.textContent = 'Success';
-                resultMessage.innerHTML = `
+                const messageHtml = `
                         <strong>File uploaded successfully!</strong><br>
                         Name: ${data.file_info.name}<br>
                         Size: ${data.file_info.size} bytes<br>
                         Extension: ${data.file_info.extension}
                     `;
+                showSuccess(messageHtml);
             } else {
-                statusText.textContent = 'Error';
-                resultMessage.textContent = data.message || 'An error occurred during upload.';
+                showError(data.message || 'An error occurred during upload.');
             }
         } catch (error) {
-            statusText.textContent = 'Error';
-            resultMessage.textContent = 'Network error occurred. Please try again.';
+            showError('Network error occurred. Please try again.');
             console.error('Upload error:', error);
         }
     });

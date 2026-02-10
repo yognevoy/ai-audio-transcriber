@@ -76,8 +76,8 @@
                 </div>
 
                 <div id="result" class="mt-6 hidden">
-                    <div class="bg-red-50 border border-red-200 rounded-md p-4">
-                        <p class="text-red-700 text-sm font-medium">Status: <span id="status-text"></span></p>
+                    <div id="result-container" class="status-default border border-gray-200 rounded-md p-4">
+                        <p id="status-text-element" class="text-gray-700 text-sm font-medium">Status: <span id="status-text"></span></p>
                         <p id="result-message" class="mt-2 text-gray-700 text-sm"></p>
                     </div>
                 </div>
