@@ -109,52 +109,23 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-const tabButtons = document.querySelectorAll('.tab-button');
-const tabContents = document.querySelectorAll('.tab-content');
+function initTabs() {
+    const buttons = document.querySelectorAll('.tab-button');
+    const tabs = document.querySelectorAll('.tab-content');
 
-tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const tabName = button.getAttribute('data-tab');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.dataset.tab;
 
-        tabButtons.forEach(btn => {
-            btn.classList.remove('active-tab');
-            btn.classList.remove('border-[#1b1b18]');
-            btn.classList.add('border-transparent');
-            btn.classList.add('text-[#706f6c]');
+            buttons.forEach(btn => btn.classList.remove('active-tab'));
+            button.classList.add('active-tab');
+
+            tabs.forEach(tab => tab.classList.add('hidden'));
+
+            const activeTab = document.getElementById(`${tabName}-tab`);
+            activeTab.classList.remove('hidden');
         });
-
-        button.classList.add('active-tab');
-        button.classList.remove('border-transparent');
-        button.classList.remove('text-[#706f6c]');
-        button.classList.add('border-[#1b1b18]');
-        button.classList.add('text-[#1b1b18]');
-
-        const currentVisibleTab = document.querySelector('.tab-content:not(.hidden)');
-
-        if (currentVisibleTab) {
-            currentVisibleTab.style.opacity = '0';
-            currentVisibleTab.style.transform = 'translateY(-10px)';
-
-            setTimeout(() => {
-                currentVisibleTab.classList.add('hidden');
-
-                const newTab = document.getElementById(`${tabName}-tab`);
-                newTab.classList.remove('hidden');
-
-                newTab.style.opacity = '0';
-                newTab.style.transform = 'translateY(10px)';
-
-                void newTab.offsetWidth;
-
-                newTab.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-                newTab.style.opacity = '1';
-                newTab.style.transform = 'translateY(0)';
-            }, 200);
-        } else {
-            const newTab = document.getElementById(`${tabName}-tab`);
-            newTab.classList.remove('hidden');
-            newTab.style.opacity = '1';
-            newTab.style.transform = 'translateY(0)';
-        }
     });
-});
+}
+
+initTabs();
