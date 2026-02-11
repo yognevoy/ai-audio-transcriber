@@ -53,6 +53,19 @@ services:
     volumes:
       - redis_data:/data
 
+  queue-worker:
+    container_name: ai-audio-transcriber-queue-worker
+    build:
+      context: .
+      dockerfile: docker/php-fpm/Dockerfile
+    user: "${UID}:${GID}"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - postgresql
+      - redis
+    command: php artisan queue:work --sleep=3 --tries=3
+
 volumes:
   postgres_data:
   redis_data:
