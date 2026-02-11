@@ -2,11 +2,27 @@
 
 namespace App\Models;
 
+use App\Enums\AudioFileStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+/**
+ * @property string $id
+ * @property int $user_id
+ * @property string $filename
+ * @property string $path
+ * @property int $size
+ * @property string $mime_type
+ * @property float|null $duration
+ * @property AudioFileStatus|string $status
+ * @property string|null $error_message
+ * @property \Carbon\Carbon $uploaded_at
+ * @property \Carbon\Carbon|null $processed_at
+ * @property array|null $metadata
+ */
 
 class AudioFile extends Model
 {

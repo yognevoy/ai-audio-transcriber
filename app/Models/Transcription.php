@@ -2,10 +2,20 @@
 
 namespace App\Models;
 
+use App\Enums\TranscriptionStatus;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+/**
+ * @property string $id
+ * @property string $audio_file_id
+ * @property string $content
+ * @property string $raw_content
+ * @property TranscriptionStatus|string $status
+ * @property string|null $error_message
+ */
 
 class Transcription extends Model
 {
