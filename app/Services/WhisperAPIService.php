@@ -9,11 +9,13 @@ class WhisperAPIService
 {
     protected string $apiKey;
     protected string $apiUrl;
+    protected string $model;
 
     public function __construct()
     {
         $this->apiKey = config('services.openai.api_key');
         $this->apiUrl = config('services.openai.api_url');
+        $this->model = config('services.openai.whisper_model');
     }
 
     /**
@@ -21,10 +23,9 @@ class WhisperAPIService
      *
      * @param string $filePath
      * @param string $fileName
-     * @param string $model
      * @return array|null
      */
-    public function transcribe(string $filePath, string $fileName, string $model = 'whisper-1'): ?array
+    public function transcribe(string $filePath, string $fileName): ?array
     {
         try {
             $response = Http::withHeaders([
@@ -34,7 +35,7 @@ class WhisperAPIService
                 file_get_contents($filePath),
                 $fileName
             )->post($this->apiUrl, [
-                'model' => $model,
+                'model' => $this->model,
                 'response_format' => 'verbose_json',
             ]);
 

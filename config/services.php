@@ -38,6 +38,7 @@ return [
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
         'api_url' => env('OPENAI_API_URL'),
+        'whisper_model' => env('WHISPER_MODEL', 'whisper-1'),
     ],
 
 ];
