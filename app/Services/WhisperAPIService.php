@@ -17,12 +17,12 @@ class WhisperAPIService
     }
 
     /**
-     * Transcribe audio file using OpenAI Whisper API
+     * Transcribe audio file using OpenAI Whisper API.
      *
-     * @param string $filePath Path to the audio file
-     * @param string $fileName Name of the audio file
-     * @param string $model Model to use for transcription (default: whisper-1)
-     * @return array|null Array containing transcription result or null on failure
+     * @param string $filePath
+     * @param string $fileName
+     * @param string $model
+     * @return array|null
      */
     public function transcribe(string $filePath, string $fileName, string $model = 'whisper-1'): ?array
     {
