@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AudioFileStatus;
+use App\Jobs\ProcessAudioFile;
 use App\Models\AudioFile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -49,12 +51,11 @@ class UploadController extends Controller
             'path' => $filePath,
             'size' => $file->getSize(),
             'mime_type' => $file->getMimeType(),
-            'status' => 'uploaded',
+            'status' => AudioFileStatus::UPLOADED->value,
             'uploaded_at' => now(),
         ]);
 
-        // TODO: Publish event to queue for processing
-        // dispatch(new ProcessAudioFileJob($audioFile));
+        ProcessAudioFile::dispatch($audioFile);
 
         return response()->json([
             'success' => true,
