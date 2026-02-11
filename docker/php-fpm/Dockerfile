@@ -24,6 +24,8 @@ RUN docker-php-ext-install \
     bcmath \
     gd
 
+RUN pecl install redis && docker-php-ext-enable redis
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
