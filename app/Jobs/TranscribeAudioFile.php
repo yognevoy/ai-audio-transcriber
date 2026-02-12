@@ -6,7 +6,7 @@ use App\Enums\AudioFileStatus;
 use App\Enums\TranscriptionStatus;
 use App\Models\AudioFile;
 use App\Models\Transcription;
-use App\Services\WhisperAPIService;
+use App\Services\AudioTranscriptionService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,7 +30,7 @@ class TranscribeAudioFile implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(WhisperAPIService $whisperService): void
+    public function handle(AudioTranscriptionService $transcriptionService): void
     {
         $audioFile = AudioFile::find($this->audioFileId);
 
@@ -46,7 +46,7 @@ class TranscribeAudioFile implements ShouldQueue
 
             $fullPath = storage_path('app/public/' . $audioFile->path);
 
-            $result = $whisperService->transcribe($fullPath, $audioFile->filename);
+            $result = $transcriptionService->transcribe($fullPath, $audioFile->filename);
 
             if ($result !== null) {
                 Transcription::create([
