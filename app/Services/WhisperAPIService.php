@@ -14,7 +14,7 @@ class WhisperAPIService
     public function __construct()
     {
         $this->apiKey = config('services.openai.api_key');
-        $this->apiUrl = config('services.openai.api_url');
+        $this->apiUrl = config('services.openai.whisper_api_url');
         $this->model = config('services.openai.whisper_model');
     }
 
