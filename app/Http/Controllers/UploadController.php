@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AudioFileStatus;
+use App\Jobs\CleanTranscriptionText;
 use App\Jobs\ProcessAudioFile;
 use App\Models\AudioFile;
+use App\Pipelines\ProcessAudioPipeline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\View\View;
 
 class UploadController extends Controller
@@ -55,7 +58,7 @@ class UploadController extends Controller
             'uploaded_at' => now(),
         ]);
 
-        ProcessAudioFile::dispatch($audioFile);
+        (new ProcessAudioPipeline())->handle($audioFile->id);
 
         return response()->json([
             'success' => true,

@@ -18,14 +18,13 @@ class ProcessAudioFile implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected AudioFile $audioFile;
-
     /**
      * Create a new job instance.
      */
-    public function __construct(AudioFile $audioFile)
+    public function __construct(
+        protected string $audioFileId
+    )
     {
-        $this->audioFile = $audioFile;
     }
 
     /**
@@ -33,37 +32,46 @@ class ProcessAudioFile implements ShouldQueue
      */
     public function handle(WhisperAPIService $whisperService): void
     {
+        $audioFile = AudioFile::find($this->audioFileId);
+
+        if (!$audioFile) {
+            Log::error('Audio file not found ', [
+                'audio_file_id' => $this->audioFileId
+            ]);
+            return;
+        }
+
         try {
-            $this->audioFile->update(['status' => AudioFileStatus::PROCESSING->value]);
+            $audioFile->update(['status' => AudioFileStatus::PROCESSING->value]);
 
-            $fullPath = storage_path('app/public/' . $this->audioFile->path);
+            $fullPath = storage_path('app/public/' . $audioFile->path);
 
-            $result = $whisperService->transcribe($fullPath, $this->audioFile->filename);
+            $result = $whisperService->transcribe($fullPath, $audioFile->filename);
 
             if ($result !== null) {
                 Transcription::create([
-                    'audio_file_id' => $this->audioFile->id,
+                    'audio_file_id' => $audioFile->id,
                     'raw_content' => $result['text'] ?? '',
                     'status' => TranscriptionStatus::PROCESSING->value
                 ]);
 
-                $this->audioFile->update([
+                $audioFile->update([
                     'status' => AudioFileStatus::COMPLETED->value,
                     'processed_at' => now()
                 ]);
             } else {
-                $this->audioFile->update([
+                $audioFile->update([
                     'status' => AudioFileStatus::FAILED->value,
                     'error_message' => 'Transcription failed'
                 ]);
             }
         } catch (\Exception $e) {
             Log::error('Error processing audio file: ' . $e->getMessage(), [
-                'audio_file_id' => $this->audioFile->id,
+                'audio_file_id' => $audioFile->id,
                 'exception' => $e
             ]);
 
-            $this->audioFile->update([
+            $audioFile->update([
                 'status' => AudioFileStatus::FAILED->value,
                 'error_message' => $e->getMessage()
             ]);
