@@ -28,7 +28,7 @@ class CleanTranscription implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(TranscriptCleanupService $transcriptCleanupService): void
+    public function handle(TranscriptCleanupService $cleanupService): void
     {
         $audioFile = AudioFile::find($this->audioFileId);
 
@@ -50,7 +50,7 @@ class CleanTranscription implements ShouldQueue
                 'status' => TranscriptionStatus::PROCESSING->value
             ]);
 
-            $cleanedContent = $transcriptCleanupService->cleanText($transcription->raw_content);
+            $cleanedContent = $cleanupService->cleanText($transcription->raw_content);
 
             $transcription->update([
                 'content' => $cleanedContent ?? $transcription->raw_content,
