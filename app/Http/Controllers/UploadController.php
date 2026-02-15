@@ -68,4 +68,29 @@ class UploadController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Get user's uploaded files.
+     */
+    public function getFiles(): JsonResponse
+    {
+        $audioFiles = AudioFile::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($file) {
+                return [
+                    'id' => $file->id,
+                    'filename' => $file->filename,
+                    'size' => $file->size,
+                    'uploaded_at' => $file->uploaded_at->diffForHumans(),
+                    'status' => $file->status,
+                    'transcription_status' => $file->transcription ? $file->transcription->status : null,
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'files' => $audioFiles,
+        ]);
+    }
 }
