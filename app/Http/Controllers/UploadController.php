@@ -94,4 +94,30 @@ class UploadController extends Controller
             'files' => $audioFiles,
         ]);
     }
+
+    /**
+     * Delete an uploaded file.
+     */
+    public function delete(string $id): JsonResponse
+    {
+        $audioFile = AudioFile::where('user_id', Auth::id())
+            ->where('id', $id)
+            ->first();
+
+        if (!$audioFile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File not found.',
+            ], 404);
+        }
+
+        \Storage::delete($audioFile->path);
+
+        $audioFile->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'File deleted successfully.',
+        ]);
+    }
 }
