@@ -93,79 +93,9 @@
             <!-- Files Tab Content -->
             <div id="files-tab" class="tab-content hidden">
                 <h2 class="text-[#1b1b18] text-lg font-medium mb-6">Uploaded Files</h2>
-
-                <div class="space-y-4">
-                    <div class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-medium text-[#1b1b18]">sample_audio.mp3</h3>
-                                <p class="text-sm text-[#706f6c]">Size: 15.2 MB | Uploaded: Today</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-medium text-[#1b1b18]">meeting_recording.wav</h3>
-                                <p class="text-sm text-[#706f6c]">Size: 28.7 MB | Uploaded: Yesterday</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-medium text-[#1b1b18]">interview.flac</h3>
-                                <p class="text-sm text-[#706f6c]">Size: 42.1 MB | Uploaded: Feb 7, 2026</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-medium text-[#1b1b18]">presentation.mp3</h3>
-                                <p class="text-sm text-[#706f6c]">Size: 35.4 MB | Uploaded: Feb 6, 2026</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-medium text-[#1b1b18]">podcast_episode.wav</h3>
-                                <p class="text-sm text-[#706f6c]">Size: 52.8 MB | Uploaded: Feb 5, 2026</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer">Delete</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h3 class="font-medium text-[#1b1b18]">voice_note.m4a</h3>
-                                <p class="text-sm text-[#706f6c]">Size: 8.3 MB | Uploaded: Feb 4, 2026</p>
-                            </div>
-                            <div class="flex space-x-2">
-                                <button class="px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer">Delete</button>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="text-center py-12">
+                    <p class="text-gray-500">Loading files...</p>
                 </div>
             </div>
 
