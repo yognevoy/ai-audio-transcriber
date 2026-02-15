@@ -82,6 +82,7 @@ class UploadController extends Controller
                     'id' => $file->id,
                     'filename' => $file->filename,
                     'size' => $file->size,
+                    'size_formatted' => $file->size_formatted,
                     'uploaded_at' => $file->uploaded_at->diffForHumans(),
                     'status' => $file->status,
                     'transcription_status' => $file->transcription ? $file->transcription->status : null,
