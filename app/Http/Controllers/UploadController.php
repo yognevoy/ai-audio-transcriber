@@ -120,4 +120,34 @@ class UploadController extends Controller
             'message' => 'File deleted successfully.',
         ]);
     }
+
+    /**
+     * Get user's transcriptions.
+     */
+    public function getTranscriptions(): JsonResponse
+    {
+        $transcriptions = AudioFile::where('user_id', Auth::id())
+            ->with('transcription')
+            ->whereHas('transcription')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($file) {
+                return [
+                    'id' => $file->id,
+                    'filename' => $file->filename,
+                    'transcription_id' => $file->transcription->id,
+                    'content' => $file->transcription->content,
+                    'raw_content' => $file->transcription->raw_content,
+                    'status' => $file->transcription->status,
+                    'error_message' => $file->transcription->error_message,
+                    'uploaded_at' => $file->uploaded_at->diffForHumans(),
+                    'created_at' => $file->transcription->created_at->diffForHumans(),
+                ];
+            });
+
+        return response()->json([
+            'success' => true,
+            'transcriptions' => $transcriptions,
+        ]);
+    }
 }
