@@ -1,4 +1,5 @@
 import { loadFiles } from './files';
+import { loadTranscriptions } from './transcriptions';
 
 export function initTabs() {
     const buttons = document.querySelectorAll('.tab-button');
@@ -18,6 +19,10 @@ export function initTabs() {
 
             if (tabName === 'files') {
                 loadFiles();
+            }
+
+            if (tabName === 'transcriptions') {
+                loadTranscriptions();
             }
         });
     });

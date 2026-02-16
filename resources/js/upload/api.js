@@ -22,3 +22,8 @@ export async function deleteFile(fileId) {
 
     return response.json();
 }
+
+export async function fetchTranscriptions() {
+    const response = await fetch('/api/transcriptions');
+    return response.json();
+}
