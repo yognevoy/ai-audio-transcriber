@@ -1,4 +1,5 @@
 import { fetchTranscriptions } from './api';
+import { escapeHtml, ucFirst } from '../utils';
 
 let loadedTranscriptions = [];
 
@@ -46,13 +47,13 @@ function renderTranscriptionsList() {
         const buttons = getButtons(transcription.status);
 
         return `
-            <div class="p-4 border border-gray-200 rounded-lg" data-transcription-id="${transcription.transcription_id}">
+            <div class="p-4 border border-gray-200 rounded-lg" data-transcription-id="${escapeHtml(transcription.transcription_id)}">
                 <div class="flex justify-between items-start">
                     <div class="flex-1">
-                        <h3 class="font-medium text-[#1b1b18]">Transcription of ${transcription.filename}</h3>
-                        <p class="text-sm text-[#706f6c] mt-1">Status: ${capitalizeFirstLetter(transcription.status)} | Created: ${transcription.created_at}</p>
+                        <h3 class="font-medium text-[#1b1b18]">Transcription of ${escapeHtml(transcription.filename)}</h3>
+                        <p class="text-sm text-[#706f6c] mt-1">Status: ${ucFirst(transcription.status)} | Created: ${escapeHtml(transcription.created_at)}</p>
                         <p class="mt-2 text-sm text-[#1b1b18] line-clamp-2">
-                            ${transcription.content || 'No content available'}
+                            ${escapeHtml(transcription.content) || 'No content available'}
                         </p>
                     </div>
                     <div class="flex space-x-2 ml-4">
@@ -83,16 +84,12 @@ function getButtons(status) {
     `;
 }
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function showError(message) {
     const transcriptionsTab = document.getElementById('transcriptions-tab');
     transcriptionsTab.innerHTML = `
         <h2 class="text-[#1b1b18] text-lg font-medium mb-6">Transcriptions</h2>
         <div class="bg-red-50 border border-red-200 rounded-md p-4">
-            <p class="text-red-700 text-sm">${message}</p>
+            <p class="text-red-700 text-sm">${escapeHtml(message)}</p>
         </div>
     `;
 }
