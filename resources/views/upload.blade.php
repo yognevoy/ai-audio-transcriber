@@ -93,7 +93,7 @@
             <!-- Files Tab Content -->
             <div id="files-tab" class="tab-content hidden">
                 <h2 class="text-[#1b1b18] text-lg font-medium mb-6">Uploaded Files</h2>
-                
+
                 <div class="text-center py-12">
                     <p class="text-gray-500">Loading files...</p>
                 </div>
@@ -205,6 +205,6 @@
     </div>
 </div>
 
-@vite(['resources/js/upload.js'])
+@vite(['resources/js/upload/index.js'])
 </body>
 </html>
