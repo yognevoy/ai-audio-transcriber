@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, watch, provide } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import TabButton from '@/components/TabButton.vue';
 import FileCard from '@/components/FileCard.vue';
 import TranscriptionCard from '@/components/TranscriptionCard.vue';
 import FileUploadZone from '@/components/FileUploadZone.vue';
 import StatusMessage from '@/components/StatusMessage.vue';
+import ToastContainer from '@/components/ToastContainer.vue';
 import { useUpload } from '@/composables/useUpload';
 import { useFiles } from '@/composables/useFiles';
 import { useTranscriptions } from '@/composables/useTranscriptions';
+import { useToast } from '@/composables/useToast';
 import type { TabType } from '@/types/audio';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
+const { toasts, show } = useToast();
+
+provide('toast', { show });
 
 // Tab state
 const activeTab = ref<TabType>('upload');
@@ -256,6 +262,9 @@ watch(activeTab, (newTab) => {
                 </div>
             </div>
         </div>
+
+        <!-- Toast Notification Container -->
+        <ToastContainer :toasts="toasts" @remove="removeToast" />
     </div>
 </template>
 
