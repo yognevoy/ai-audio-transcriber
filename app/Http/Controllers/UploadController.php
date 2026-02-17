@@ -8,16 +8,16 @@ use App\Pipelines\ProcessAudioPipeline;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Inertia\Inertia;
 
 class UploadController extends Controller
 {
     /**
      * Show the upload page.
      */
-    public function index(): View
+    public function index()
     {
-        return view('upload');
+        return Inertia::render('Upload');
     }
 
     /**
