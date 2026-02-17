@@ -46,13 +46,12 @@ const {
     clearError: clearTranscriptionsError,
 } = useTranscriptions();
 
-// Computed properties
-const hasSelectedFile = computed(() => selectedFile.value !== null);
-const isUploadDisabled = computed(() => !hasSelectedFile.value || isUploading.value);
-
 // Methods
 async function handleUpload() {
-    if (!selectedFile.value) return;
+    if (!selectedFile.value) {
+        alert('Please select an audio file first');
+        return;
+    }
 
     const result = await uploadFile(selectedFile.value);
 
@@ -136,7 +135,6 @@ watch(activeTab, (newTab) => {
                         <div class="flex items-center justify-between gap-4">
                             <button
                                 class="relative overflow-hidden w-full px-5 py-2.5 text-sm font-medium rounded-lg border border-black text-white bg-black cursor-pointer transition-transform duration-200 active:scale-[0.97] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 before:absolute before:inset-0 before:bg-gradient-to-r before:from-gray-800 before:to-black before:opacity-0 before:transition-opacity before:duration-300 hover:before:opacity-100 disabled:opacity-70 disabled:cursor-not-allowed"
-                                :disabled="isUploadDisabled"
                                 @click="handleUpload"
                             >
                                 <span
