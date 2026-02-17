@@ -22,7 +22,7 @@ defineEmits<{
                 </p>
             </div>
             <button
-                class="delete-btn ml-4 px-3 py-1 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 transition-colors duration-200"
+                class="delete-btn ml-4 px-3 py-1 text-sm bg-red-50 text-red-600 rounded cursor-pointer hover:bg-red-100 transition-colors duration-200"
                 @click="$emit('delete', file.id)"
             >
                 Delete

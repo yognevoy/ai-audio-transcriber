@@ -34,20 +34,20 @@ function getStatusText(status: string): string {
             <div class="flex space-x-2 ml-4 shrink-0">
                 <template v-if="transcription.status === 'failed'">
                     <button
-                        class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded hover:bg-gray-200 transition-colors duration-200"
+                        class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded cursor-pointer hover:bg-gray-200 transition-colors duration-200"
                     >
                         Retry
                     </button>
                 </template>
                 <template v-else>
                     <button
-                        class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded hover:bg-gray-200 transition-colors duration-200"
+                        class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded cursor-pointer hover:bg-gray-200 transition-colors duration-200"
                     >
                         View
                     </button>
                 </template>
                 <button
-                    class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded hover:bg-gray-200 transition-colors duration-200"
+                    class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded cursor-pointer hover:bg-gray-200 transition-colors duration-200"
                 >
                     Copy
                 </button>
