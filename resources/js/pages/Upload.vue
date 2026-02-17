@@ -261,27 +261,6 @@ watch(activeTab, (newTab) => {
     </div>
 </template>
 
-<style scoped>
-.tab-content {
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-}
-
-.tab-button {
-    transition: all 0.2s ease;
-}
-
-.tab-content:not(.hidden) {
-    animation: fadeInSlideDown 0.3s ease forwards;
-}
-
-@keyframes fadeInSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+<style>
+@import '../../css/upload.css';
 </style>
