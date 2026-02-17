@@ -1,8 +1,15 @@
+/**
+ * Upload page specific styles
+ * These styles complement the Tailwind CSS utilities used in the Vue components
+ */
+
+/* Active tab styling */
 .active-tab {
     color: #1b1b18 !important;
-    border-bottom: 2px solid #1b1b18 !important;
+    border-bottom-color: #1b1b18 !important;
 }
 
+/* Line clamp utility for truncating text */
 .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -10,14 +17,17 @@
     overflow: hidden;
 }
 
+/* Tab content transitions */
 .tab-content {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
+/* Tab button transitions */
 .tab-button {
     transition: all 0.2s ease;
 }
 
+/* Fade animations */
 .fade-out {
     opacity: 0;
     transform: translateY(-10px);
@@ -28,10 +38,7 @@
     transform: translateY(0);
 }
 
-.tab-content.hidden {
-    display: none;
-}
-
+/* Tab content animation */
 .tab-content:not(.hidden) {
     animation: fadeInSlideDown 0.3s ease forwards;
 }
@@ -45,4 +52,41 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Button loader animation */
+.btn-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* File upload zone hover state */
+.drop-zone:hover {
+    background-color: #f3f4f6;
+}
+
+/* Status message animations */
+.status-default {
+    transition: all 0.3s ease;
+}
+
+/* Scrollbar styling for better UX */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
 }
