@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import TabButton from '@/components/TabButton.vue';
 import FileCard from '@/components/FileCard.vue';
 import TranscriptionCard from '@/components/TranscriptionCard.vue';
@@ -93,6 +93,19 @@ watch(activeTab, (newTab) => {
             <div
                 class="bg-white rounded-t-lg lg:rounded-t-none lg:rounded-tl-lg lg:rounded-r-lg shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] border border-[#e3e3e0] overflow-hidden min-h-[80vh]"
             >
+
+                <!-- Header with User Info -->
+                <div class="border-b border-gray-200 px-6 py-3 flex items-center justify-between bg-gray-50">
+                    <span class="text-sm text-[#1b1b18] font-medium">{{ $page.props.auth.user.name }}</span>
+                    <Link
+                        :href="route('logout')"
+                        method="post"
+                        as="button"
+                        class="text-sm text-gray-600 hover:text-black transition-colors duration-200"
+                    >
+                        Log Out
+                    </Link>
+                </div>
 
                 <!-- Tab Navigation -->
                 <div class="border-b border-gray-200">
