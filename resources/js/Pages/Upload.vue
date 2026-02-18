@@ -93,6 +93,7 @@ watch(activeTab, (newTab) => {
             <div
                 class="bg-white rounded-t-lg lg:rounded-t-none lg:rounded-tl-lg lg:rounded-r-lg shadow-[0px_0px_1px_0px_rgba(0,0,0,0.03),0px_1px_2px_0px_rgba(0,0,0,0.06)] border border-[#e3e3e0] overflow-hidden min-h-[80vh]"
             >
+
                 <!-- Tab Navigation -->
                 <div class="border-b border-gray-200">
                     <nav class="flex -mb-px">
