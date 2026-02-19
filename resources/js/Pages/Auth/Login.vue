@@ -87,6 +87,13 @@ const submit = () => {
                     Forgot your password?
                 </Link>
 
+                <Link
+                    :href="route('register')"
+                    class="ms-4 rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                    Sign up
+                </Link>
+
                 <PrimaryButton
                     class="ms-4"
                     :class="{ 'opacity-25': form.processing }"
