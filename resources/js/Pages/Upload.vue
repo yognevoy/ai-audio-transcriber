@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
-import TabButton from '@/components/TabButton.vue';
-import FileCard from '@/components/FileCard.vue';
-import TranscriptionCard from '@/components/TranscriptionCard.vue';
-import FileUploadZone from '@/components/FileUploadZone.vue';
-import StatusMessage from '@/components/StatusMessage.vue';
-import { useUpload } from '@/composables/useUpload';
-import { useFiles } from '@/composables/useFiles';
-import { useTranscriptions } from '@/composables/useTranscriptions';
+import TabButton from '@/Components/TabButton.vue';
+import FileCard from '@/Components/FileCard.vue';
+import TranscriptionCard from '@/Components/TranscriptionCard.vue';
+import FileUploadZone from '@/Components/FileUploadZone.vue';
+import StatusMessage from '@/Components/StatusMessage.vue';
+import { useUpload } from '@/Composables/useUpload';
+import { useFiles } from '@/Composables/useFiles';
+import { useTranscriptions } from '@/Composables/useTranscriptions';
 import type { TabType } from '@/types/audio';
 
 // Tab state
