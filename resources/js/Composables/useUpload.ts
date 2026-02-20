@@ -24,11 +24,7 @@ export function useUpload() {
                     processingStatus.value = data.file;
 
                     // Stop polling if completed or failed
-                    if (
-                        data.file.progress === 100 ||
-                        data.file.stage === 'failed' ||
-                        data.file.stage === 'cleaning_failed'
-                    ) {
+                    if (data.file.is_finished) {
                         stopPolling();
                     }
                 }

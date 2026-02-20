@@ -1,44 +1,12 @@
 /**
- * Audio file status enumeration
- */
-export enum AudioFileStatus {
-    Uploaded = 'uploaded',
-    Processing = 'processing',
-    Completed = 'completed',
-    Failed = 'failed',
-}
-
-/**
- * Transcription status enumeration
- */
-export enum TranscriptionStatus {
-    Pending = 'pending',
-    Processing = 'processing',
-    Completed = 'completed',
-    Failed = 'failed',
-}
-
-/**
- * Processing stage type
- */
-export type ProcessingStage =
-    | 'pending'
-    | 'transcribing'
-    | 'cleaning'
-    | 'completed'
-    | 'failed'
-    | 'cleaning_failed';
-
-/**
  * File processing status interface
  */
 export interface FileProcessingStatus {
     id: number | string;
     filename: string;
-    status: AudioFileStatus;
-    transcription_status?: TranscriptionStatus | null;
     progress: number;
-    stage: ProcessingStage;
+    is_finished: boolean;
+    is_successful: boolean;
     error_message?: string | null;
 }
 

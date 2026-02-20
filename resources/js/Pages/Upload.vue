@@ -191,11 +191,10 @@ watch(activeTab, (newTab) => {
                             </div>
                             <ProgressBar
                                 :progress="processingStatus.progress"
-                                :stage="processingStatus.stage"
+                                :is-finished="processingStatus.is_finished"
+                                :is-successful="processingStatus.is_successful"
+                                :error-message="processingStatus.error_message"
                             />
-                            <div v-if="processingStatus.error_message" class="mt-3 text-sm text-[#1b1b18]">
-                                {{ processingStatus.error_message }}
-                            </div>
                         </div>
                     </div>
 
