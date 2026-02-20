@@ -53,6 +53,7 @@ async function copyToClipboard(): Promise<void> {
                 </button>
 
                 <button
+                    v-if="transcription.status !== 'failed'"
                     class="px-3 py-1 text-sm bg-gray-100 text-[#1b1b18] rounded cursor-pointer hover:bg-gray-200 transition-colors duration-200 flex items-center gap-1.5"
                     @click="copyToClipboard"
                     type="button"
