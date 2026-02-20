@@ -64,10 +64,10 @@ function handleClick() {
 </script>
 
 <template>
-    <div class="w-full cursor-pointer">
+    <div class="w-full">
         <div
             :class="[
-                'flex items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer transition-colors duration-200',
+                'flex items-center justify-center w-full h-64 border-2 border-dashed rounded-lg transition-colors duration-200',
                 isDragging
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
@@ -77,7 +77,7 @@ function handleClick() {
             @drop="handleDrop"
             @click="handleClick"
         >
-            <label class="flex flex-col items-center justify-center w-full h-full pt-5 pb-6">
+            <label class="flex flex-col items-center justify-center cursor-pointer w-full h-full pt-5 pb-6">
                 <svg
                     class="w-8 h-8 mb-4 text-[#706f6c]"
                     aria-hidden="true"
