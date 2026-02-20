@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AudioFileStatus;
+use App\Enums\TranscriptionStatus;
 use App\Models\AudioFile;
 use App\Pipelines\ProcessAudioPipeline;
 use Illuminate\Http\JsonResponse;
@@ -148,6 +149,67 @@ class UploadController extends Controller
         return response()->json([
             'success' => true,
             'transcriptions' => $transcriptions,
+        ]);
+    }
+
+    /**
+     * Get processing status for a specific file.
+     */
+    public function getStatus(string $id): JsonResponse
+    {
+        $audioFile = AudioFile::where('user_id', Auth::id())
+            ->where('id', $id)
+            ->with('transcription')
+            ->first();
+
+        if (!$audioFile) {
+            return response()->json([
+                'success' => false,
+                'message' => 'File not found.',
+            ], 404);
+        }
+
+        $progress = 0;
+        $stage = '';
+
+        // Calculate progress based on file and transcription status
+        if ($audioFile->status === AudioFileStatus::FAILED->value) {
+            $stage = 'failed';
+        } elseif ($audioFile->status === AudioFileStatus::PROCESSING->value) {
+            $progress = 50;
+            $stage = 'transcribing';
+        } elseif ($audioFile->status === AudioFileStatus::COMPLETED->value) {
+            if ($audioFile->transcription) {
+                if ($audioFile->transcription->status === TranscriptionStatus::PROCESSING->value) {
+                    $progress = 75;
+                    $stage = 'cleaning';
+                } elseif ($audioFile->transcription->status === TranscriptionStatus::COMPLETED->value) {
+                    $progress = 100;
+                    $stage = 'completed';
+                } elseif ($audioFile->transcription->status === TranscriptionStatus::FAILED->value) {
+                    $progress = 50;
+                    $stage = 'cleaning_failed';
+                }
+            } else {
+                $progress = 50;
+                $stage = 'transcribing';
+            }
+        } else {
+            $progress = 0;
+            $stage = 'pending';
+        }
+
+        return response()->json([
+            'success' => true,
+            'file' => [
+                'id' => $audioFile->id,
+                'filename' => $audioFile->filename,
+                'status' => $audioFile->status,
+                'transcription_status' => $audioFile->transcription?->status,
+                'progress' => $progress,
+                'stage' => $stage,
+                'error_message' => $audioFile->error_message ?? $audioFile->transcription?->error_message,
+            ],
         ]);
     }
 }

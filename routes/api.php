@@ -7,3 +7,4 @@ Route::post('/upload', [UploadController::class, 'store']);
 Route::get('/files', [UploadController::class, 'getFiles']);
 Route::delete('/files/{id}', [UploadController::class, 'delete']);
 Route::get('/transcriptions', [UploadController::class, 'getTranscriptions']);
+Route::get('/files/{id}/status', [UploadController::class, 'getStatus']);
