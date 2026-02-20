@@ -1,21 +1,65 @@
-import { ref, type Ref } from 'vue';
-import type { UploadResponse, FileInfo } from '@/types/audio';
+import { ref } from 'vue';
+import type { UploadResponse, FileProcessingStatus } from '@/types/audio';
 
 /**
  * Composable for handling file uploads
  */
 export function useUpload() {
     const isLoading = ref(false);
-    const error = ref<string | null>(null);
-    const successMessage = ref<string | null>(null);
+    const processingStatus = ref<FileProcessingStatus | null>(null);
+    const pollInterval = ref<number | null>(null);
+
+    /**
+     * Poll for file processing status
+     */
+    function startPolling(fileId: string | number): void {
+        processingStatus.value = null;
+
+        const poll = async () => {
+            try {
+                const response = await fetch(`/api/files/${fileId}/status`);
+                const data = await response.json();
+
+                if (data.success) {
+                    processingStatus.value = data.file;
+
+                    // Stop polling if completed or failed
+                    if (
+                        data.file.progress === 100 ||
+                        data.file.stage === 'failed' ||
+                        data.file.stage === 'cleaning_failed'
+                    ) {
+                        stopPolling();
+                    }
+                }
+            } catch (err) {
+                console.error('Error polling status:', err);
+            }
+        };
+
+        // Initial poll
+        poll();
+
+        // Continue polling every 2 seconds
+        pollInterval.value = window.setInterval(poll, 2000);
+    }
+
+    /**
+     * Stop polling for file status
+     */
+    function stopPolling(): void {
+        if (pollInterval.value) {
+            clearInterval(pollInterval.value);
+            pollInterval.value = null;
+        }
+    }
 
     /**
      * Upload an audio file to the server
      */
     async function uploadFile(file: File): Promise<UploadResponse> {
         isLoading.value = true;
-        error.value = null;
-        successMessage.value = null;
+        processingStatus.value = null;
 
         const formData = new FormData();
         formData.append('audio_file', file);
@@ -32,18 +76,21 @@ export function useUpload() {
                 throw new Error(data.message || 'Upload failed');
             }
 
-            if (data.success) {
-                successMessage.value = 'File uploaded successfully';
+            if (data.success && data.file_info) {
+                // Start polling for processing status
+                startPolling(data.file_info.id);
             } else {
-                error.value = data.message || 'An error occurred during upload';
+                const errorMessage = data.message || 'An error occurred during upload';
+                alert(errorMessage);
             }
 
             return data;
         } catch (err) {
-            error.value = err instanceof Error ? err.message : 'Network error occurred. Please try again.';
+            const errorMessage = err instanceof Error ? err.message : 'Network error occurred. Please try again.';
+            alert(errorMessage);
             return {
                 success: false,
-                message: error.value,
+                message: errorMessage,
             };
         } finally {
             isLoading.value = false;
@@ -54,8 +101,8 @@ export function useUpload() {
      * Clear the current status messages
      */
     function clearStatus(): void {
-        error.value = null;
-        successMessage.value = null;
+        stopPolling();
+        processingStatus.value = null;
     }
 
     /**
@@ -68,10 +115,10 @@ export function useUpload() {
 
     return {
         isLoading,
-        error,
-        successMessage,
+        processingStatus,
         uploadFile,
         clearStatus,
         formatFileSize,
+        stopPolling,
     };
 }

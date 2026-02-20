@@ -19,6 +19,30 @@ export enum TranscriptionStatus {
 }
 
 /**
+ * Processing stage type
+ */
+export type ProcessingStage =
+    | 'pending'
+    | 'transcribing'
+    | 'cleaning'
+    | 'completed'
+    | 'failed'
+    | 'cleaning_failed';
+
+/**
+ * File processing status interface
+ */
+export interface FileProcessingStatus {
+    id: number | string;
+    filename: string;
+    status: AudioFileStatus;
+    transcription_status?: TranscriptionStatus | null;
+    progress: number;
+    stage: ProcessingStage;
+    error_message?: string | null;
+}
+
+/**
  * Audio file interface representing an uploaded audio file
  */
 export interface AudioFile {
@@ -89,20 +113,6 @@ export interface TranscriptionsResponse {
 export interface DeleteResponse {
     success: boolean;
     message: string;
-}
-
-/**
- * Status message type for UI display
- */
-export type StatusMessageType = 'success' | 'error' | 'info' | 'warning';
-
-/**
- * Status message interface for displaying messages to users
- */
-export interface StatusMessage {
-    type: StatusMessageType;
-    text: string;
-    html?: string;
 }
 
 /**

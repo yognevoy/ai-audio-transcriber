@@ -5,7 +5,7 @@ import TabButton from '@/Components/TabButton.vue';
 import FileCard from '@/Components/FileCard.vue';
 import TranscriptionCard from '@/Components/TranscriptionCard.vue';
 import FileUploadZone from '@/Components/FileUploadZone.vue';
-import StatusMessage from '@/Components/StatusMessage.vue';
+import ProgressBar from '@/Components/ProgressBar.vue';
 import { useUpload } from '@/Composables/useUpload';
 import { useFiles } from '@/Composables/useFiles';
 import { useTranscriptions } from '@/Composables/useTranscriptions';
@@ -18,11 +18,9 @@ const activeTab = ref<TabType>('upload');
 const selectedFile = ref<File | null>(null);
 const {
     isLoading: isUploading,
-    error: uploadError,
-    successMessage: uploadSuccess,
+    processingStatus,
     uploadFile,
     clearStatus,
-    formatFileSize,
 } = useUpload();
 
 // Files state
@@ -184,27 +182,21 @@ watch(activeTab, (newTab) => {
                             </button>
                         </div>
 
-                        <StatusMessage
-                            v-if="uploadSuccess"
-                            type="success"
-                            :show="!!uploadSuccess"
-                            class="mt-6"
-                        >
-                            <template #title>Success</template>
-                            <div v-if="selectedFile" class="mt-2 text-gray-700 text-sm">
-                                <strong>File uploaded successfully!</strong><br />
-                                Name: {{ selectedFile.name }}<br />
-                                Size: {{ formatFileSize(selectedFile) }}
+                        <!-- Progress Bar -->
+                        <div v-if="processingStatus" class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                            <div class="mb-3">
+                                <p class="text-sm font-medium text-[#1b1b18] mb-1">
+                                    Processing: {{ processingStatus.filename }}
+                                </p>
                             </div>
-                        </StatusMessage>
-
-                        <StatusMessage
-                            v-if="uploadError"
-                            type="error"
-                            :show="!!uploadError"
-                            :message="uploadError || undefined"
-                            class="mt-6"
-                        />
+                            <ProgressBar
+                                :progress="processingStatus.progress"
+                                :stage="processingStatus.stage"
+                            />
+                            <div v-if="processingStatus.error_message" class="mt-3 text-sm text-[#1b1b18]">
+                                {{ processingStatus.error_message }}
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Files Tab Content -->
@@ -216,12 +208,6 @@ watch(activeTab, (newTab) => {
                         <div v-if="isLoadingFiles" class="text-center py-12">
                             <p class="text-gray-500">Loading files...</p>
                         </div>
-
-                        <StatusMessage
-                            v-else-if="filesError"
-                            type="error"
-                            :message="filesError || undefined"
-                        />
 
                         <div v-else-if="files.length === 0" class="text-center py-12">
                             <p class="text-gray-500">No files uploaded yet</p>
@@ -246,12 +232,6 @@ watch(activeTab, (newTab) => {
                         <div v-if="isLoadingTranscriptions" class="text-center py-12">
                             <p class="text-gray-500">Loading transcriptions...</p>
                         </div>
-
-                        <StatusMessage
-                            v-else-if="transcriptionsError"
-                            type="error"
-                            :message="transcriptionsError || undefined"
-                        />
 
                         <div v-else-if="transcriptions.length === 0" class="text-center py-12">
                             <p class="text-gray-500">No transcriptions yet</p>
