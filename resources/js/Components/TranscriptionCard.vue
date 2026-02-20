@@ -73,7 +73,7 @@ async function copyToClipboard(): Promise<void> {
                 {{ transcription.content || 'No content available' }}
             </div>
 
-            <p v-if="transcription.error_message" class="mt-2 text-sm text-red-600">
+            <p v-if="transcription.error_message" class="mt-2 text-sm text-[#1b1b18]">
                 Error: {{ transcription.error_message }}
             </p>
         </div>
@@ -83,7 +83,7 @@ async function copyToClipboard(): Promise<void> {
                 {{ transcription.content }}
             </p>
 
-            <p v-if="transcription.error_message" class="mt-2 text-sm text-red-600">
+            <p v-if="transcription.error_message" class="mt-2 text-sm text-[#1b1b18]">
                 Error: {{ transcription.error_message }}
             </p>
         </div>
