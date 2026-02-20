@@ -28,7 +28,7 @@ async function copyToClipboard(): Promise<void> {
 </script>
 
 <template>
-    <div class="p-4 border border-gray-200 rounded-lg bg-white transition-shadow duration-300 hover:shadow-md min-h-[130px]">
+    <div class="p-4 border border-gray-200 rounded-lg bg-white transition-shadow duration-300 hover:shadow-md min-h-[100px]">
 
         <!-- Header -->
         <div class="flex justify-between items-start">
@@ -80,7 +80,7 @@ async function copyToClipboard(): Promise<void> {
         </div>
 
         <div v-else>
-            <p v-if="transcription.content" class="mt-2 text-sm text-[#1b1b18] line-clamp-2">
+            <p v-if="transcription.content" class="mt-2 text-sm text-[#1b1b18] line-clamp-1">
                 {{ transcription.content }}
             </p>
 
@@ -93,9 +93,9 @@ async function copyToClipboard(): Promise<void> {
 </template>
 
 <style scoped>
-.line-clamp-2 {
+.line-clamp-1 {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

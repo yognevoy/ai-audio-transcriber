@@ -11,7 +11,7 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow duration-200">
+    <div class="p-4 border border-gray-200 rounded-lg bg-white hover:shadow-sm transition-shadow duration-200 min-h-[100px]">
         <div class="flex justify-between items-center">
             <div class="flex-1 min-w-0">
                 <h3 class="font-medium text-[#1b1b18] truncate" :title="file.filename">
