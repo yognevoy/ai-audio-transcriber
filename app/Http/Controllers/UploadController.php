@@ -182,12 +182,10 @@ class UploadController extends Controller
             'file' => [
                 'id' => $audioFile->id,
                 'filename' => $audioFile->filename,
-                'status' => $audioFile->status,
-                'transcription_status' => $audioFile->transcription?->status,
                 'progress' => $status->progress,
-                'stage' => $status->stage,
-                'error_message' => $audioFile->error_message
-                    ?? $audioFile->transcription?->error_message,
+                'is_finished' => $status->isFinished,
+                'is_successful' => $status->isSuccessful,
+                'error_message' => $status->errorMessage,
             ],
         ]);
     }
