@@ -14,6 +14,7 @@ use Inertia\Inertia;
 class UploadController extends Controller
 {
     public function __construct(
+        protected ProcessAudioPipeline $pipeline,
         protected ProcessingStatusResolver $statusResolver
     )
     {
@@ -62,7 +63,7 @@ class UploadController extends Controller
             'uploaded_at' => now(),
         ]);
 
-        (new ProcessAudioPipeline())->handle($audioFile->id);
+        $this->pipeline->handle($audioFile->id);
 
         return response()->json([
             'success' => true,
