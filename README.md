@@ -1,59 +1,175 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AI Audio Transcriber
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+AI Audio Transcriber is a service built with Laravel. It accepts audio files, transcribes them using the OpenAI Whisper API, and removes verbal noise from the text using the ChatGPT API.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Overview](#overview)
+- [Technology Stack](#technology-stack)
+- [Prerequisites](#prerequisites)
+- [Configuration](#configuration)
+- [Installation & Setup](#installation--setup)
+- [Running the Application](#running-the-application)
+- [Entity Relationship Diagram](#entity-relationship-diagram)
+- [Testing](#testing)
+- [How to Contribute](#how-to-contribute)
+- [License](#license)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This is a web application that allows users to upload audio files and receive clean, readable transcriptions.
 
-## Learning Laravel
+![AI Audio Transcriber Screenshot](src/image.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Technology Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Backend**: PHP 8.4+, Laravel 12.*
+- **Frontend**: Inertia.js, Vue.js/React (configured with Inertia)
+- **Database**: PostgreSQL 15
+- **Queue**: Redis
+- **Caching**: Redis
+- **DevOps**: Docker, Docker Compose
+- **External APIs**: OpenAI Whisper API, OpenAI Chat API
 
-## Laravel Sponsors
+## Prerequisites
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Before you begin, ensure you have met the following requirements:
 
-### Premium Partners
+- **Docker** (version 20.10 or higher)
+- **Docker Compose** (version 2.0 or higher)
+- **Git** (version 2.0 or higher)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Configuration
 
-## Contributing
+### Environment Variables
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Key environment variables in `.env`:
 
-## Code of Conduct
+- `APP_ENV`: Application environment
+- `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`: Database connection
+- `HTTP_PORT`: Port for the web server
+- `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD`: Redis configuration
+- `OPENAI_API_KEY`: OpenAI API key
+- `OPENAI_WHISPER_API_URL`: Whisper API endpoint
+- `WHISPER_MODEL`: Whisper model
+- `OPENAI_CHAT_API_URL`: Chat API endpoint
+- `CHAT_MODEL`: Chat model for text cleaning
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Installation & Setup
 
-## Security Vulnerabilities
+### 1. Clone the Repository
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+git clone https://github.com/yognevoy/ai-audio-transcriber.git
+cd ai-audio-transcriber
+```
+
+### 2. Copy Environment Configuration
+
+```bash
+cp .env.example .env
+```
+
+### 3. Build and Start Containers
+
+```bash
+docker-compose up -d --build
+```
+
+### 4. Install PHP Dependencies
+
+```bash
+# Enter the PHP container
+docker exec -it ai_audio_transcriber_php bash
+
+# Install dependencies
+composer install
+```
+
+### 5. Set Up Database
+
+```bash
+# From inside the PHP container
+php artisan migrate
+```
+
+### 6. Build Frontend Assets
+
+```bash
+# From inside the PHP container
+npm install
+npm run build
+```
+
+## Running the Application
+
+### Starting Services
+
+```bash
+docker-compose up -d
+```
+
+### Stopping Services
+
+```bash
+docker-compose down
+```
+
+### Accessing Services
+
+- **Web Application**: http://localhost:8000
+- **PostgreSQL**: localhost:5432 (for external connections)
+- **Redis**: localhost:6379 (for external connections)
+
+## Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    USER {
+        int id PK
+        string email
+    }
+
+    AUDIO_FILE {
+        uuid id PK
+        int user_id FK
+        string filename
+        string path
+        int size
+        string mime_type
+        float duration
+        string status
+        string error_message
+        datetime uploaded_at
+        datetime processed_at
+        json metadata
+    }
+
+    TRANSCRIPTION {
+        uuid id PK
+        uuid audio_file_id FK
+        text content
+        text raw_content
+        string status
+        string error_message
+    }
+
+    USER ||--o{ AUDIO_FILE : owns
+    AUDIO_FILE ||--|| TRANSCRIPTION : has
+```
+
+## Testing
+
+### Running Tests
+
+```bash
+# Run all tests
+docker exec -it ai_audio_transcriber_php php artisan test
+```
+
+## How to Contribute
+
+If you find a bug or have a feature request, please check the [Issues page](https://github.com/yognevoy/ai-audio-transcriber/issues) before creating a new one. For code contributions, fork the repository, make your changes on a new branch, and submit a pull request with a clear description of the changes. Please make sure to test your changes thoroughly before submitting.
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/yognevoy/ai-audio-transcriber/blob/main/LICENSE.txt) file for details.
