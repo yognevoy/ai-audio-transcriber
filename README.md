@@ -24,7 +24,7 @@ This is a web application that allows users to upload audio files and receive cl
 ## Technology Stack
 
 - **Backend**: PHP 8.4+, Laravel 12.*
-- **Frontend**: Inertia.js, Vue.js/React (configured with Inertia)
+- **Frontend**: Inertia.js, Vue.js/React
 - **Database**: PostgreSQL 15
 - **Queue**: Redis
 - **Caching**: Redis
